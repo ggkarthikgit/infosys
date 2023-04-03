@@ -9,7 +9,8 @@ sudo hostnamectl set-hostname docker
 sudo su
 curl -SSL https://get.docker.com/ | sh
 systemctl start docker
-systemctl status dockerusermod -aG docker ubuntu
+systemctl status docker
+usermod -aG docker ubuntu
 docker --version
 docker version
 docker --info
@@ -105,7 +106,7 @@ Lab 4: Working with volume mounts in Docker
 
 Task 1: Starting Docker Containers Bind Mounts
 
-mkdir /home/ubuntu/share
+mkdir -p /home/ubuntu/share
 echo 'Hello From Docker Host' > /home/ubuntu/share/index.html
 docker run -it --name container1 -p 80:80 -v /home/ubuntu/share:/var/www/html ubuntu:18.04 /bin/bash
 apt-get update -y && apt-get install apache2 -y
@@ -122,6 +123,10 @@ docker rm -vf container1 container2
 Task 2: Create a bind mount with --mount option and verify it
 
 docker run -d -it --name newbind01 --mount type=bind,source=/home/ubuntu/share/,target=/app nginx:latest
+docker exec -it newbind01 bash
+cd /app
+cat index.html
+
 docker inspect newbind01
 mount | grep -i /app
 
@@ -146,11 +151,17 @@ cd /var/lib/docker/volumes/ct-volume1/_data/
 touch f1 f2 f3
 vi /var/lib/docker/volumes/ct-volume1/_data/index.html
 
+docker exec -it 205ba683a1e4 bash
+cd /usr/share/nginx/html/
+ls
+
 Task 3: Deleting container and attaching the volume to another container
 
 docker container stop nginx-container
 docker rm container nginx-container
 docker ps -a
+
+docker volume ls
 
 docker run -it --name busybox-container1 --mount source=ct-volume1,target=/data busybox sh
 ls
@@ -199,6 +210,7 @@ Task 2: Create a new docker bridge and check connectivity between containers of 
 docker network create --driver bridge ct-bridge2
 docker run -it --network ct-bridge2 --name=ct-c3 busybox
 Press Ctrl+P+Q, to switch back to Host
+docker run -it --network ct-bridge2 --name=ct-c4 busybox
 Press Ctrl+P+Q, to switch back to Host
 docker attach ct-c4
 ping -c 5 ct-c3
@@ -232,6 +244,12 @@ docker run -it --network none --name=ct-c6 busybox
 ip addr
 Press Ctrl+P+Q, to switch back to Host
 
+Task: 6 Limiting resource on docker contianer 
+
+docker stats
+docker run -d --name web02  --memory="500m" nginx:latest
+
+docker run -d --name web03 --cpus="1" --memory="500m" nginx:latest
 
 
 Lab 7: Building a Dockerfile to setup an Ubuntu container with WordPress application
