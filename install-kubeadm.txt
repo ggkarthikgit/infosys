@@ -40,3 +40,4 @@ sudo systemctl restart containerd
 #ami-04ebf66b7be0500f6
 
 #kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
+# 30000 - 32767
