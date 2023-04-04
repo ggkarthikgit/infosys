@@ -1,0 +1,42 @@
+#!/bin/bash
+set -x
+sudo setenforce 0
+
+sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+
+sudo modprobe overlay
+sudo modprobe br_netfilter
+sudo tee /etc/sysctl.d/k8s.conf<<EOF
+net.bridge.bridge-nf-call-iptables = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward = 1
+EOF
+
+sudo sysctl --system
+
+
+sudo curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh ./get-docker.sh
+
+
+sudo cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+enabled=1
+gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF
+
+
+sudo yum install -y kubelet-1.24.0 kubectl-1.24.0 kubeadm-1.24.0
+
+sudo systemctl start docker
+sudo systemctl enable --now kubelet
+sudo rm -f /etc/containerd/config.toml
+sudo systemctl restart containerd
+
+
+#ami-04ebf66b7be0500f6
+
+#kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
