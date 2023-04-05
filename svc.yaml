@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: testpod-svc
+spec:
+  type: NodePorti
+  selector:
+    app: myapp
+  ports:
+  - port: 80
+

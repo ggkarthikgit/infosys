@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pa-nginx-pod1
+  labels:
+    app: pa-nginx-app
+spec:
+  containers:
+  - name: pa-nginx-ctr1
+    image: nginx
+

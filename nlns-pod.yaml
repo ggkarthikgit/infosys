@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nlns-nginx-pod
+  labels:
+    env: test
+spec:
+  containers:
+  - name: nlns-nginx-ctr
+    image: nginx
+  nodeSelector:
+    disktype: ssd
