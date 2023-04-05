@@ -1,0 +1,55 @@
+install etcdctl 
+
+curl -s https://api.github.com/repos/etcd-io/etcd/releases/latest | grep browser_download_url | grep linux-amd64 | cut -d '"' -f 4 | wget -qi -
+
+
+tar xvf *.tar.gz
+
+cd etcd-*/
+mv etcd* /usr/local/bin/
+cd ~
+rm -rf /tmp/etcd
+
+
+
+ETCDCTL_API=3 etcdctl snapshot save snapshot.db --cacert /etc/kubernetes/pki/etcd/ca.crt --cert /etc/kubernetes/pki/etcd/server.crt --key /etc/kubernetes/pki/etcd/server.key
+
+
+status check 
+ETCDCTL_API=3 etcdctl snapshot status snapshot.db
+
+OR
+
+ETCDCTL_API=3 etcdctl snapshot status snapshot.db
+
+
+backup certificate tar zip
+
+tar -zcvf etcd.tar.gz /etc/kubernetes/pki/etcd
+
+
+To verify now we will delete deployment
+
+
+ update etcd dir path 
+ vi /etc/kubernetes/manifests/etcd.yaml
+
+172.31.40.155
+
+#########################  working ##########################
+ETCDCTL_API=3 etcdctl snapshot restore snapshot.db --endpoints=https://127.0.0.1:2379 --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key --name=controlplane --data-dir=/var/lib/etcd2 --initial-cluster=controlplane=https://172.31.40.155:2380 --initial-cluster-token=etcd-cluster-1 --initial-advertise-peer-urls=https://172.31.40.155:2380
+
+##############################################################
+
+ETCDCTL_API=3 etcdctl snapshot restore snapshot.db --endpoints=https://127.0.0.1:2379 --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key --name=controlplane --data-dir=/var/lib/etcd2 --initial-cluster=controlplane=https://172.31.40.155:2380 --initial-cluster-token=etcd-cluster-1 --initial-advertise-peerurls=https://172.31.40.155:2380
+
+ OR new command 
+ETCDCTL_API=3 etcdutl snapshot restore snapshot.db --endpoints=https://127.0.0.1:2379 --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key --name=master --data-dir=/var/lib/etcd1 --initial-cluster=controlplane=https://172.31.40.155:2380 --initial-cluster-token=etcd-cluster-1 --initial-advertise-peerurls=https://172.31.40.155:2380
+
+
+systemctl restart kubelet.service
+
+kubectl get deploy
+
+
+
