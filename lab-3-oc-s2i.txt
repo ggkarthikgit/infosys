@@ -1,0 +1,85 @@
+Step 1: Login to OpenShift
+
+First, you need to log in to your OpenShift cluster. You can do this by running the following command:
+
+$ oc login <cluster-url>
+Make sure to replace <cluster-url> with the URL of your OpenShift cluster.
+
+Step 2: Create a project
+
+You need to create a project to work in. You can do this by running the following command:
+
+$ oc new-project s2i
+Make sure to replace <project-name> with a name for your project.
+
+Step 3: Grant anyuid access to default service account
+
+Run the following command to grant the default service account anyuid access:
+
+$ oc adm policy add-scc-to-user anyuid -z default
+This command will grant anyuid access to the default service account, which will allow the Node.js application to run as the root user.
+
+Step 4: Install Git
+
+You need Git installed to clone the Node.js application. Run the following command to install Git:
+
+$ yum install git
+
+Step 5: Create a new app
+
+Run the following command to create a new app using the Node.js 16 image stream and the Node.js Hello World example app:
+
+oc new-app --image-stream="openshift/nodejs:16-ubi9" https://github.com/eraneeshansari/node-hello.git --name nodejs
+This command will create a new app using the Node.js  image stream and the Node.js Hello World example app from the provided GitHub repository. The app will be named nodejs.
+
+Step 6: Build the app
+
+Run the following command to build the app:
+
+$ oc start-build nodejs --follow
+This command will start a build of the nodejs app and follow the build progress in real-time.
+
+Step 7: View build logs
+
+Run the following command to view the build logs:
+
+$ oc logs -f buildconfig/nodejs
+This command will display the build logs for the nodejs app.
+
+Step 8: View image streams
+
+Run the following command to view the image streams:
+
+$ oc get is
+This command will display a list of image streams.
+
+Step 9: View specific image stream
+
+Run the following command to view a specific image stream:
+
+$ oc get is/nodejs
+This command will display information about the nodejs image stream.
+
+Step 10: View JSON output of an image stream
+
+Run the following command to view the JSON output of an image stream:
+
+$ oc get is/nodejs -o json
+This command will display the JSON output of the nodejs image stream.
+
+Step 11: View nodes
+
+Run the following command to view the nodes:
+
+$ oc get nodes
+This command will display a list of nodes in the cluster.
+
+Step 13: View image streams again
+
+Run the following command to view the image streams again:
+
+$ oc get is
+This command will display a list of image streams, including the newly created nodejs image stream.
+
+
+
