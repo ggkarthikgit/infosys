@@ -1,0 +1,74 @@
+Introduction:
+OpenShift is a container application platform that allows developers to deploy, manage and scale applications on the cloud. In this tutorial, we will explore some of the commonly used OpenShift commands to perform basic operations such as creating an application, managing services, and exposing applications.
+
+Prerequisites:
+Before starting the lab, ensure that you have the following:
+
+An OpenShift cluster up and running
+An account with cluster-admin permissions
+
+Lab: create nginx project
+
+$oc new-project nginx
+Adding Security Context Constraints (SCC)
+The first step is to add anyuid Security Context Constraints to the default service account. This allows the pod to run as a non-root user.
+
+$ oc adm policy add-scc-to-user anyuid -z default
+
+Creating a new application
+The next step is to create a new application using the nginx Docker image.
+$ oc new-app --docker-image=nginx --name=nginx
+
+Checking the status
+To check the status of the application, use the following command.
+$ oc status
+
+Getting deployment details
+To get the deployment details, use the following command.
+$ oc get deploy
+
+Getting service details
+To get the service details, use the following command.
+$ oc get svc
+
+Editing service details
+To edit the service details, use the following command.
+$ oc edit svc nginx
+
+Getting service details again
+To get the service details again, use the following command.
+$ oc get svc
+
+Getting deployment details again
+To get the deployment details again, use the following command.
+$ oc get deploy
+
+Getting pod details
+To get the pod details, use the following command.
+$ oc get pod
+
+Editing service details again
+To edit the service details again, use the following command.
+$ oc edit svc nginx
+
+Getting pod details again
+To get the pod details again, use the following command.
+$ oc get pod
+
+Exposing the service
+To expose the service, use the following command.
+$ oc expose svc nginx
+
+Checking service details using kubectl
+To check the service details using kubectl, use the following command.
+$ kubectl get svc
+
+Getting route details
+To get the route details, use the following command.
+$ oc get route
+
+Describing the route
+To describe the route, use the following command.
+$ oc describe route nginx
+
+
