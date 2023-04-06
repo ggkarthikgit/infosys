@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: jobs-hello
+spec:
+  template:
+    metadata:
+      name: jobs-pod
+    spec:
+      containers:
+      - name: jobs-ctr
+        image: busybox
+        args:
+        - /bin/sh
+        - -c
+        - echo HELLO WORLD !!!!!
+      restartPolicy: Never
