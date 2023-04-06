@@ -1,0 +1,81 @@
+create an OpenShift persistent volume claim (PVC) tutorial using the provided commands. Here are the steps:
+
+Create a new file named claim-pv.yaml using the vi editor:
+
+
+Task: 1
+vi claim-pv.yaml
+In the editor, enter the following YAML code to define the persistent volume claim: yaml
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: claim-pv
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+
+This creates a new PVC named my-pvc with a storage request of 1Gi and access mode of ReadWriteOnce.
+
+Save and exit the editor by pressing Esc followed by :wq.
+
+Use the oc command to create the PVC by running:
+
+oc create -f claim-pv.yaml
+This creates the PVC using the configuration in the claim-pv.yaml file.
+
+Verify that the PVC has been created by running:
+
+oc get pvc
+This should display a list of all the PVCs in your OpenShift cluster, including the new my-pvc.
+
+
+Task: 2
+Next, create a new file named mysql-pvc.yaml using the vi editor:
+
+vi mysql-pvc.yaml
+In the editor, enter the following YAML code to define a new pod that uses the my-pvc PVC:
+yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mysql-pod
+spec:
+  containers:
+  - name: mysql
+    image: mysql
+    env:
+    - name: MYSQL_ROOT_PASSWORD
+      value: test123
+    volumeMounts:
+    - name: mysql-pvc
+      mountPath: /var/lib/mysql
+  volumes:
+    - name: mysql-pvc
+      persistentVolumeClaim:
+        claimName: claim-pv
+
+This creates a new pod named mysql-pod that runs the MySQL container and mounts the my-pvc PVC at /var/lib/mysql inside the container.
+
+Save and exit the editor by pressing Esc followed by :wq.
+
+Use the oc command to create the pod by running:
+
+oc create -f mysql-pvc.yaml
+This creates the pod using the configuration in the mysql-pvc.yaml file.
+
+Verify that the pod has been created by running:
+
+oc get pods
+This should display a list of all the pods in your OpenShift cluster, including the new mysql-pod.
+
+Finally, verify that the PVC is being used by the pod by running:
+
+oc get pvc
+This should display the my-pvc PVC, which should have a status of "Bound" to indicate that it is being used by the mysql-pod pod.
+
+That's it! You have successfully created an OpenShift PVC and used it in a pod.
