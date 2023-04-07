@@ -1,0 +1,31 @@
+ yum install httpd-tools
+ htpasswd -bBc /tmp/htpasswd admin admin
+ cat /tmp/htpasswd
+ htpasswd -bB /tmp/htpasswd developer developer
+ cat /tmp/htpasswd
+ oc create secret generic myhtpasswdidp-secret -n openshift-config --from-file=/tmp/htpasswd
+ kubectl get secret -n openshift-config
+ kubectl get secret myhtpasswdidp-secret -n openshift-config
+ kubectl get secret myhtpasswdidp-secret -n openshift-config -o yaml
+ oc get oauth cluster
+ oc get oauth cluster -o yaml
+ oc get oauth cluster -o yaml > auth.yaml
+ vi auth.yaml
+ oc apply -f auth.yaml
+ oc get pod -n openshift-authentication
+ oc create user admin
+ oc create user developer
+ oc get user
+ oc adm policy add-cluster-role-to-user cluster-admin admin
+ oc get user
+ oc get nodes
+ oc adm policy remove-cluster-role-from-user cluster-admin admin
+ oc adm policy add-role-to-user view admin -n artifactory
+ oc adm policy remove-role-from-user view admin -n artifactory
+ oc adm policy add-role-to-user edit admin -n artifactory
+ ls
+ cd openshift/
+ ls
+ cd auth/
+ ls
+ 
