@@ -1,0 +1,18 @@
+  oc new-project artifactory
+ oc adm policy add-scc-to-user anyuid -z default
+ oc new-app --image=jenkins/jenkins:2.375.2-lts-jdk11 --name=jenkins -l app=jenkins
+ oc new-app --image=docker.bintray.io/jfrog/artifactory-oss:6.5.9 --name=artifactory -l app=artifactory
+ oc get deployment
+ oc expose service jenkins
+ oc get route
+ oc expose service artifactory
+ oc get route
+ oc get pods
+ oc exec -it jenkins -- cat /var/jenkins_home/secrets/initialAdminPassword
+ oc get pod
+ oc exec -it jenkins-78f878d8f6-rmwcv -- cat /var/jenkins_home/secrets/initialAdminPassword
+ kubectl describe pod jenkins-78f878d8f6-rmwcv
+ oc get pod
+ kubectl describe pod artifactory-f58cb46b7-c8q4d
+ oc get pod
+ history
