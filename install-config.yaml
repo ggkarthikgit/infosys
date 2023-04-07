@@ -1,0 +1,45 @@
+apiVersion: v1
+baseDomain: openshiftoc.tk
+credentialsMode: Mint 
+controlPlane:   
+  hyperthreading: Enabled 
+  name: master
+  platform:
+    aws:
+      zones:
+      - ap-south-1a
+      rootVolume:
+        iops: 400
+        size: 100
+        type: io1 
+      type: t2.xlarge
+  replicas: 1
+compute: 
+- hyperthreading: Enabled 
+  name: worker
+  platform:
+    aws:
+      rootVolume:
+        iops: 200
+        size: 100
+        type: io1 
+      type: t2.xlarge
+      zones:
+      - ap-south-1a
+  replicas: 1
+metadata:
+  name: testoc
+networking:
+  clusterNetwork:
+  - cidr: 10.128.0.0/14
+    hostPrefix: 23
+  machineNetwork:
+  - cidr: 10.0.0.0/16
+  networkType: OpenShiftSDN
+  serviceNetwork:
+  - 172.30.0.0/16
+platform:
+  aws:
+    region: ap-south-1
+sshKey: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIx/38O+InzOlqYodU/JHL0DfwAYveVOhWsQ493oyJ+J root@ip-172-31-45-3.ap-south-1.compute.internal 
+pullSecret: '{"auths":{"cloud.openshift.com":{"auth":"b3BlbnNoaWZ0LXJlbGVhc2UtZGV2K29jbV9hY2Nlc3NfZmVkYjg0MTAyY2VjNGUxNTgyYjA4Y2EyZjY5YjU0MjU6QjI5WkU1Tk80NE5WSkhKUVVDTlFHREtXN1UzV1VWRVZIRzI5RERRTFU4VlpNNFgxRFQyRTFUSFdVRFpOWUQ2NQ==","email":"devops1198@gmail.com"},"quay.io":{"auth":"b3BlbnNoaWZ0LXJlbGVhc2UtZGV2K29jbV9hY2Nlc3NfZmVkYjg0MTAyY2VjNGUxNTgyYjA4Y2EyZjY5YjU0MjU6QjI5WkU1Tk80NE5WSkhKUVVDTlFHREtXN1UzV1VWRVZIRzI5RERRTFU4VlpNNFgxRFQyRTFUSFdVRFpOWUQ2NQ==","email":"devops1198@gmail.com"},"registry.connect.redhat.com":{"auth":"fHVoYy1wb29sLTNkMTEyOTVjLTk3NGYtNDI1MS1hZDA4LWM2ZGE1ZTYzNTBmMTpleUpoYkdjaU9pSlNVelV4TWlKOS5leUp6ZFdJaU9pSXpaVEV6WVdNek56Y3pOMkkwWXpobFlUbGhOakV5TWpRMVpqWXlNV0UwTlNKOS5oY3ROZk1WcUpkTFlmNngwanFydXhaOG12N1owZmYyNUNYbTlJTFI0VTVqbjJSN29XZ1FaeGZMQk1pWVNWNnZBNFBMVmowTWV4RVZaZTVrc1JFZkZsUWg0VzJnd1RuQy1wbWQybzd2eHdKNHBDU1NNc09BLVE0clg4WHMtb3BZUlBNNHBTdnItOEdZcnJvZVN2UGlmRUcxaGJhMkQ5Q1hUWHRuUURrWDNoNVpYZDdKd0hESE54WTJIeHhERXpvZXk5b2ZQZ1Q4QnZxLVQyVWFwak1JZUZzeGJBSnV5enAxOGFtZ3ZyMUo2VFdMbjVWdGNEdlZ2MmlmNmF5RU05eE5ZOERVTUxRQXM5dTg1SUtoNXQ2bllka1IzMzRMb2FRWXJLbGZVVERZdndfY2c1UU9IVEhSeDlwZGRyMTBXOGhEbUtPaXZZTjVwMXVnUFFXd2llU24zVTNLNFljQXMxR0s4cWpZSWxoMlp5VWdMUUhPU1l6OXJab0ItbUwyMzl1WExKYkNRRGs4NkNmd3k5b1g4NTFlR0JubU51X1R2dzhRdUl0TE1MVEFYWEw4dC1mcGtWZTlWTzk2eXctYjRxeE5ISXBXcnlFM2dlS0dNd1J0RWlGRlJ5TzdRNGpTLU5abWpuMXVlQnRLS1RzejlzSGtBaW5MME1DdW9EbDVBZjVIMmRmWDRHM0FrajBJNWxTVzlMLXZKNkIyaS14VmlhZU1nS2xKT3JLa3lGZUhTcjNtSThUWUo5WndwUzhJb2R5ZHRVYmJ6cnhac3J2ZWctVTlMSW5XM0dnaTk2TGN1ckpJRlBXQUhYQVdSb2lfZHhQaHFqWkNiRFd2cVNhZFRoRkw5dm1ZNktBQzBCb21NSk83d2Y2R1l2ejI1MUUxU25wNEhRM1VmMk5ySW1Lbw==","email":"devops1198@gmail.com"},"registry.redhat.io":{"auth":"fHVoYy1wb29sLTNkMTEyOTVjLTk3NGYtNDI1MS1hZDA4LWM2ZGE1ZTYzNTBmMTpleUpoYkdjaU9pSlNVelV4TWlKOS5leUp6ZFdJaU9pSXpaVEV6WVdNek56Y3pOMkkwWXpobFlUbGhOakV5TWpRMVpqWXlNV0UwTlNKOS5oY3ROZk1WcUpkTFlmNngwanFydXhaOG12N1owZmYyNUNYbTlJTFI0VTVqbjJSN29XZ1FaeGZMQk1pWVNWNnZBNFBMVmowTWV4RVZaZTVrc1JFZkZsUWg0VzJnd1RuQy1wbWQybzd2eHdKNHBDU1NNc09BLVE0clg4WHMtb3BZUlBNNHBTdnItOEdZcnJvZVN2UGlmRUcxaGJhMkQ5Q1hUWHRuUURrWDNoNVpYZDdKd0hESE54WTJIeHhERXpvZXk5b2ZQZ1Q4QnZxLVQyVWFwak1JZUZzeGJBSnV5enAxOGFtZ3ZyMUo2VFdMbjVWdGNEdlZ2MmlmNmF5RU05eE5ZOERVTUxRQXM5dTg1SUtoNXQ2bllka1IzMzRMb2FRWXJLbGZVVERZdndfY2c1UU9IVEhSeDlwZGRyMTBXOGhEbUtPaXZZTjVwMXVnUFFXd2llU24zVTNLNFljQXMxR0s4cWpZSWxoMlp5VWdMUUhPU1l6OXJab0ItbUwyMzl1WExKYkNRRGs4NkNmd3k5b1g4NTFlR0JubU51X1R2dzhRdUl0TE1MVEFYWEw4dC1mcGtWZTlWTzk2eXctYjRxeE5ISXBXcnlFM2dlS0dNd1J0RWlGRlJ5TzdRNGpTLU5abWpuMXVlQnRLS1RzejlzSGtBaW5MME1DdW9EbDVBZjVIMmRmWDRHM0FrajBJNWxTVzlMLXZKNkIyaS14VmlhZU1nS2xKT3JLa3lGZUhTcjNtSThUWUo5WndwUzhJb2R5ZHRVYmJ6cnhac3J2ZWctVTlMSW5XM0dnaTk2TGN1ckpJRlBXQUhYQVdSb2lfZHhQaHFqWkNiRFd2cVNhZFRoRkw5dm1ZNktBQzBCb21NSk83d2Y2R1l2ejI1MUUxU25wNEhRM1VmMk5ySW1Lbw==","email":"devops1198@gmail.com"}}}' 
